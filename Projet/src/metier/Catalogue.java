@@ -1,10 +1,11 @@
 package metier;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
-public class Catalogue {
+public class Catalogue implements I_Catalogue{
 
 	private List<I_Produit> lesProduits ;
 
@@ -22,7 +23,7 @@ public class Catalogue {
 	}
 	
 	public boolean addProduit(I_Produit p){
-		if(estPresent(p.getNom())){
+		if( p==null || estPresent(p.getNom()) || p.getQuantite()<0 || p.getPrixUnitaireHT()<=0){
 			return false;
 		}
 		else{
@@ -32,8 +33,8 @@ public class Catalogue {
 	}
 	
 	public boolean addProduit(String nom, double prixHT,int quantite){
-		if(prixHT > 0 && quantite >0){
-			return addProduit(new Produit(nom,quantite, prixHT));
+		if(prixHT >= 0 && quantite >=0){
+			return addProduit(new Produit(nom, prixHT,quantite));
 		}
 		else{
 			return false;
@@ -43,19 +44,23 @@ public class Catalogue {
 	public int addProduits(List<I_Produit> produits){
 		boolean res=true;
 		int i=0;
-		for (I_Produit r : produits) {
-			res=addProduit(r);
-			if(!res){
-				i++;
+		if(produits != null){
+			for (I_Produit r : produits) {
+				res=addProduit(r);
+				if(res){
+					i++;
+				}
 			}
 		}
 		return i;
 	}
 	
 	private I_Produit chercherProduit(String nom){
-		for (I_Produit r : lesProduits) {
-			if(r.getNom().compareTo(nom)==0){
-				return r;
+		if(nom!=null){
+			for (I_Produit r : lesProduits) {
+				if(r.getNom().compareTo(nom)==0){
+					return r;
+				}
 			}
 		}
 		return null;
@@ -93,28 +98,46 @@ public class Catalogue {
 		}
 	}
 	
-	public String[] getNomProduit(){
+	@Override
+	public String[] getNomProduits(){
 		String [] noms = new String[lesProduits.size()];
+		ArrayList<String> trie = new ArrayList<String>();
+		for (I_Produit p : lesProduits) {
+			trie.add(p.getNom());
+		}
+		Collections.sort(trie);
 		for (int i = 0; i < lesProduits.size() ; i++) {
-			noms[i]=lesProduits.get(i).getNom();
+			noms[i]=trie.get(i);
 		}
 		return noms; 
 	}
+
 	
 	public double  getMontantTotalTTC(){
 		double montant=0;
 		for (I_Produit r : lesProduits) {
 			montant+=r.getPrixStockTTC();
 		}
-		return montant;
+		return arrondirPrix(montant);
 	}
 
+	private double arrondirPrix(double d){
+		return (((int)(d*100))/100.);
+	}
+	
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	@Override
 	public String toString() {
 		String s = "";
 		for (I_Produit r : lesProduits) {
-			s+=r.getNom()+"\n";
+			s+=r.getNom()+" - prix HT : "+r.getPrixUnitaireHT()+" € - prix TTC : "+r.getPrixUnitaireTTC()+" € - quantité en stock : "+r.getQuantite() + "\n";
 		}
+		s+="\nMontant total TTC du stock : "+getMontantTotalTTC()+" €";
 		return s;
 	}
 	
