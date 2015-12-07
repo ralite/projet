@@ -58,11 +58,12 @@ public class Produit implements I_Produit {
 
 	@Override
 	public double getPrixStockTTC() {
-		return arrondirPrix((prixUnitaireHT+(prixUnitaireHT*tauxTVA))*quantiteStock);
+		return ((prixUnitaireHT+(prixUnitaireHT*tauxTVA))*quantiteStock);
 	}
 	
 	private double arrondirPrix(double d){
-		return (((int)(d*100))/100.);
+		//return (((double)(d*100))/100.);
+		return (double)Math.round(d * 100) / 100;
 	}
 
 	public String toString(){

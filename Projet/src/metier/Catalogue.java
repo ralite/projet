@@ -1,5 +1,6 @@
 package metier;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -122,7 +123,7 @@ public class Catalogue implements I_Catalogue{
 	}
 
 	private double arrondirPrix(double d){
-		return (((int)(d*100))/100.);
+		return (double)Math.round(d * 100) / 100;
 	}
 	
 	@Override
@@ -134,10 +135,12 @@ public class Catalogue implements I_Catalogue{
 	@Override
 	public String toString() {
 		String s = "";
+		DecimalFormat df = new DecimalFormat("#0.00");
 		for (I_Produit r : lesProduits) {
-			s+=r.getNom()+" - prix HT : "+r.getPrixUnitaireHT()+" â‚¬ - prix TTC : "+r.getPrixUnitaireTTC()+" â‚¬ - quantitÃ© en stock : "+r.getQuantite() + "\n";
+			s+=r.getNom()+" - prix HT : "+df.format(r.getPrixUnitaireHT())+" € - prix TTC : "+df.format(r.getPrixUnitaireTTC())+" € - quantité en stock : "+r.getQuantite() + "\n";
 		}
-		s+="\nMontant total TTC du stock : "+getMontantTotalTTC()+" â‚¬";
+		s+="\nMontant total TTC du stock : "+df.format(getMontantTotalTTC())+" €";
+		s=s.replace(".", ",");
 		return s;
 	}
 	
