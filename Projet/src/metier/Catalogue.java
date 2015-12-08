@@ -128,7 +128,7 @@ public class Catalogue implements I_Catalogue{
 	
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
+		lesProduits.clear();
 		
 	}
 	
