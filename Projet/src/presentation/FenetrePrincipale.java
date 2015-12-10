@@ -1,7 +1,12 @@
 package presentation;
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
+
+import metier.Catalogue;
+import controleur.ControleurCatalogue;
+import controleur.ControleurGestionProduit;
 
 
 
@@ -66,15 +71,15 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	}
 
 	public void actionPerformed(ActionEvent e) {
-
+		ControleurGestionProduit gp = new ControleurGestionProduit();
 /* tabProduits permet de tester le fonctionnement des fen�tres avec un tableau de noms de produits "en dur"
    Quand l'application fonctionnera, il faudra bien s�r r�cup�rer les noms des produits dans le Catalogue */
-		String[] tabProduits = new String[] { "Mars", "Raider", "Twix", "Treets", "M&M's", "Smarties" };
+		String[] tabProduits = gp.getNomsProduits();
 /* M�me chose pour tabCategories (partie 4) */ 		
 //		String[] tabCategories = new String[] {"Bio", "Luxe" };
 		
 		if (e.getSource() == btAfficher)
-			new FenetreAffichage("ajourd'hui nous allons faire de la programmation en 5 couches");
+			new FenetreAffichage(ControleurCatalogue.catalogue.toString());
 		if (e.getSource() == btNouveauProduit)
 //			new FenetreNouveauProduit(tabCategories);
 			new FenetreNouveauProduit();
@@ -109,6 +114,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	
 	
 	public static void main(String[] args) {
+		ControleurCatalogue.catalogue=new Catalogue();
 		new FenetrePrincipale();
 	}
 

@@ -1,15 +1,19 @@
 package presentation;
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
-public class FenetreNouveauProduit extends JFrame implements ActionListener {
+import controleur.ControleurGestionProduit;
 
+public class FenetreNouveauProduit extends JFrame implements ActionListener {
+	private ControleurGestionProduit gp = new ControleurGestionProduit();
 	private JTextField txtPrixHT;
 	private JTextField txtNom;
 	private JTextField txtQte;
 //	private JComboBox<String> combo;
 	private JButton btValider;
+	JLabel labErreur = new JLabel();
 
 //	public FenetreNouveauProduit(String[] lesCategories) {
 	public FenetreNouveauProduit() {	
@@ -32,6 +36,7 @@ public class FenetreNouveauProduit extends JFrame implements ActionListener {
 		contentPane.add(labQte);
 		txtQte = new JTextField(15);
 		contentPane.add(txtQte);
+		contentPane.add(labErreur);
 
 //		combo = new JComboBox<String>(lesCategories);
 //		combo.setPreferredSize(new Dimension(100, 20));
@@ -47,7 +52,21 @@ public class FenetreNouveauProduit extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		this.dispose();
+		Double prix ;
+		int qte ;
+		try{
+			prix =  Double.valueOf(txtPrixHT.getText().toString());
+			qte = Integer.parseInt(txtQte.getText().toString());
+			if(!gp.addProduit(txtNom.getText().toString(),prix, qte)){
+				labErreur.setText("Erreur saisie");
+			}
+			else{
+				this.dispose();
+			}
+		} catch(Exception e1){
+			labErreur.setText("Verifier prix & quantité");
+		}
+		
 	}
 
 }

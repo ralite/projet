@@ -66,6 +66,7 @@ public class Produit implements I_Produit {
 		return (double)Math.round(d * 100) / 100;
 	}
 
+	@Override
 	public String toString(){
 		return nom;
 	}

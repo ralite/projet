@@ -1,10 +1,13 @@
 package presentation;
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
-public class FenetreSuppressionProduit extends JFrame implements ActionListener {
+import controleur.ControleurGestionProduit;
 
+public class FenetreSuppressionProduit extends JFrame implements ActionListener {
+	private ControleurGestionProduit gp = new ControleurGestionProduit();
 	private JButton btSupprimer;
 	private JComboBox<String> combo;
 	
@@ -28,6 +31,7 @@ public class FenetreSuppressionProduit extends JFrame implements ActionListener 
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		gp.remove(combo.getSelectedItem().toString());
 		this.dispose();
 	}
 
