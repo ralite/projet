@@ -18,7 +18,7 @@ public class FenetreSuppressionProduit extends JFrame implements ActionListener 
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new FlowLayout());
 		btSupprimer = new JButton("Supprimer");
-
+		System.out.println(lesProduits);
 		combo = new JComboBox<String>(lesProduits);
 		combo.setPreferredSize(new Dimension(100, 20));
 		contentPane.add(new JLabel("Produit"));

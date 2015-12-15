@@ -3,7 +3,6 @@ package controleur;
 import javax.jws.Oneway;
 
 import DAL.ProduitDAO;
-import metier.Produit;
 
 public class ControleurGestionProduit {
 
@@ -23,6 +22,7 @@ public class ControleurGestionProduit {
 	}
 
 	public boolean remove(String nom) {
+		pdao.supprimerProduit(nom);
 		return ControleurCatalogue.catalogue.removeProduit(nom);		
 	}
 }

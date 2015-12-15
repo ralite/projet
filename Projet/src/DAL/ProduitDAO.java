@@ -9,13 +9,15 @@ import java.sql.Statement;
 
 public class ProduitDAO {
 
-	String url="jdbc:oracle:thin:@gloin:1521:iut";
+	//String url="jdbc:oracle:thin:@gloin:1521:iut";
+	String url="jdbc:oracle:thin:@162.38.222.149:1521:iut";
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String login = "ralitej";
 	String mdp="2205000408Z";
 	Connection cn= null;
 	PreparedStatement creerProd = null;
 	PreparedStatement suppProd = null;
+	PreparedStatement getNomProd = null;
 	ResultSet rs=null;
 	
 	public ProduitDAO() {
@@ -32,7 +34,7 @@ public class ProduitDAO {
 		try {
 			creerProd=cn.prepareStatement("insert into Produit values (seqNumProduit.nextval,?,?,?)",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			suppProd=cn.prepareStatement("delete from Produit where nomProduit=?",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
-			
+			getNomProd=cn.prepareStatement("select * from Produit",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -74,7 +76,24 @@ public class ProduitDAO {
 	}
 
 	public String[] getNomProduits() {
-		return null;
+		String noms[];
+		int i=0;
+		try {
+			
+			rs=getNomProd.executeQuery();
+			rs.last();
+			noms = new String[rs.getRow()];
+			rs.beforeFirst();
+			while(rs.next()){
+				noms[i]=rs.getString("nomproduit");
+				i++;
+			}
+			return noms;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new String[0];
+		}
 	}
 	
 }

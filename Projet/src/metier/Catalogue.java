@@ -59,7 +59,7 @@ public class Catalogue implements I_Catalogue{
 	private I_Produit chercherProduit(String nom){
 		if(nom!=null){
 			for (I_Produit r : lesProduits) {
-				if(r.getNom().compareTo(nom)==0){
+				if(r.getNom().equalsIgnoreCase(nom)){
 					return r;
 				}
 			}
@@ -69,6 +69,7 @@ public class Catalogue implements I_Catalogue{
 	
 	public boolean removeProduit(String nom){
 		I_Produit p=chercherProduit(nom);
+		System.out.println(p);
 		if(p!=null){
 			lesProduits.remove(p);
 			return true;
