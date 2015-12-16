@@ -6,6 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import metier.I_Produit;
+import metier.Produit;
 
 public class ProduitDAO {
 
@@ -17,7 +22,7 @@ public class ProduitDAO {
 	Connection cn= null;
 	PreparedStatement creerProd = null;
 	PreparedStatement suppProd = null;
-	PreparedStatement getNomProd = null;
+	PreparedStatement getProd = null;
 	ResultSet rs=null;
 	
 	public ProduitDAO() {
@@ -34,7 +39,7 @@ public class ProduitDAO {
 		try {
 			creerProd=cn.prepareStatement("insert into Produit values (seqNumProduit.nextval,?,?,?)",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			suppProd=cn.prepareStatement("delete from Produit where nomProduit=?",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
-			getNomProd=cn.prepareStatement("select * from Produit",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			getProd=cn.prepareStatement("select * from Produit",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -68,6 +73,7 @@ public class ProduitDAO {
 	public boolean supprimerProduit(String nom){
 		try {
 			suppProd.setString(1,nom);
+			suppProd.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -80,7 +86,7 @@ public class ProduitDAO {
 		int i=0;
 		try {
 			
-			rs=getNomProd.executeQuery();
+			rs=getProd.executeQuery();
 			rs.last();
 			noms = new String[rs.getRow()];
 			rs.beforeFirst();
@@ -94,6 +100,31 @@ public class ProduitDAO {
 			e.printStackTrace();
 			return new String[0];
 		}
+	}
+
+	public List<I_Produit> getProduits() {
+		try {
+			double prixUnitaireHT;
+			int quantiteStock;
+			List<I_Produit> prod = new ArrayList<I_Produit>();
+			rs=getProd.executeQuery();
+			rs.beforeFirst();
+			while(rs.next()){
+				prixUnitaireHT= rs.getDouble("prixht");
+				if(rs.wasNull())
+					prixUnitaireHT=0;
+				quantiteStock=rs.getInt("quantite");
+				if(rs.wasNull())
+					quantiteStock=0;
+				prod.add(new Produit(rs.getString("nomproduit"), prixUnitaireHT, quantiteStock));
+			}
+			return prod;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -72,6 +72,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 
 	public void actionPerformed(ActionEvent e) {
 		ControleurGestionProduit gp = new ControleurGestionProduit();
+		ControleurCatalogue.setProduits();
 /* tabProduits permet de tester le fonctionnement des fen�tres avec un tableau de noms de produits "en dur"
    Quand l'application fonctionnera, il faudra bien s�r r�cup�rer les noms des produits dans le Catalogue */
 		String[] tabProduits = gp.getNomsProduits();

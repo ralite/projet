@@ -13,8 +13,10 @@ public class ControleurGestionProduit {
 	}
 	
 	public boolean addProduit(String nom, double prixHT,int quantite){
-		pdao.creerProduit(nom, prixHT, quantite);
-		return ControleurCatalogue.catalogue.addProduit(nom, prixHT, quantite);
+		boolean res;
+		res=pdao.creerProduit(nom, prixHT, quantite);
+		res=ControleurCatalogue.catalogue.addProduit(nom, prixHT, quantite);
+		return res;
 	}
 	
 	public String[] getNomsProduits(){
@@ -23,6 +25,7 @@ public class ControleurGestionProduit {
 
 	public boolean remove(String nom) {
 		pdao.supprimerProduit(nom);
-		return ControleurCatalogue.catalogue.removeProduit(nom);		
+		//return ControleurCatalogue.catalogue.removeProduit(nom);	
+		return true;
 	}
 }
