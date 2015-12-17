@@ -12,7 +12,7 @@ import java.util.List;
 import metier.I_Produit;
 import metier.Produit;
 
-public class ProduitDAO {
+public class ProduitDAO implements I_ProduitDAO {
 
 	//String url="jdbc:oracle:thin:@gloin:1521:iut";
 	String url="jdbc:oracle:thin:@162.38.222.149:1521:iut";
@@ -20,10 +20,13 @@ public class ProduitDAO {
 	String login = "ralitej";
 	String mdp="2205000408Z";
 	Connection cn= null;
+
 	PreparedStatement creerProd = null;
 	PreparedStatement suppProd = null;
 	PreparedStatement getProd = null;
+	PreparedStatement gererStock = null;
 	ResultSet rs=null;
+
 	
 	public ProduitDAO() {
 		try {
@@ -32,29 +35,32 @@ public class ProduitDAO {
 			} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (SQLException e) {
+			} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+			}
 		try {
 			creerProd=cn.prepareStatement("insert into Produit values (seqNumProduit.nextval,?,?,?)",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			suppProd=cn.prepareStatement("delete from Produit where nomProduit=?",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			getProd=cn.prepareStatement("select * from Produit",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			gererStock=cn.prepareStatement("update Produit set quantite=quantite+? where nomProduit=?",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
+	
+	
+	
+	
 	public void deconnexion() {
 		// TODO Auto-generated method stub
 		try {
-			cn.close();
+		cn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		// TODO Auto-generated catch block
+		e.printStackTrace();
 		}
-		
 	}
 	
 	public boolean creerProduit(String nom, double prixHT, int qte){
@@ -125,6 +131,34 @@ public class ProduitDAO {
 		}
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public boolean acheterProduit(String nom, int qte) {
+		try {
+			gererStock.setInt(1,qte);
+			gererStock.setString(2,nom);
+			gererStock.executeQuery();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		
+	}
+
+	public boolean vendreProduit(String nom, int qte) {
+		try {
+			int diminuerQuantite=qte*-1;
+			gererStock.setInt(1,diminuerQuantite);
+			gererStock.setString(2,nom);
+			gererStock.executeQuery();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
 	}
 	
 }

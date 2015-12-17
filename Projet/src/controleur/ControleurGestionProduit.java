@@ -2,14 +2,16 @@ package controleur;
 
 import javax.jws.Oneway;
 
+import DAL.FactoryProduitDAO;
+import DAL.I_ProduitDAO;
 import DAL.ProduitDAO;
 
 public class ControleurGestionProduit {
 
-	private ProduitDAO pdao;
+	private I_ProduitDAO pdao;
 	
 	public ControleurGestionProduit() {
-		pdao = new ProduitDAO();
+		pdao = FactoryProduitDAO.createProduitDAO();
 	}
 	
 	public boolean addProduit(String nom, double prixHT,int quantite){

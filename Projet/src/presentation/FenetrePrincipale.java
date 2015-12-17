@@ -21,7 +21,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	private JButton btAchat;
 	private JButton btVente;
 	private JButton btQuitter;
-
+	private ControleurGestionProduit gp;
 	
 	public FenetrePrincipale() {
 		
@@ -66,13 +66,15 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 		btVente.addActionListener(this);
 		btQuitter.addActionListener(this);
 		
+		gp = new ControleurGestionProduit();
+		ControleurCatalogue.setProduits();
+		
 		addWindowListener(this);
 		setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		ControleurGestionProduit gp = new ControleurGestionProduit();
-		ControleurCatalogue.setProduits();
+
 /* tabProduits permet de tester le fonctionnement des fen�tres avec un tableau de noms de produits "en dur"
    Quand l'application fonctionnera, il faudra bien s�r r�cup�rer les noms des produits dans le Catalogue */
 		String[] tabProduits = gp.getNomsProduits();
