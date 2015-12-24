@@ -4,9 +4,17 @@ public class FactoryProduitDAO {
 	
 	private static I_ProduitDAO instance;
 
-	public static I_ProduitDAO createProduitDAO() {
+	public static I_ProduitDAO createProduitDAO(String nom) {
 		if(instance==null)
-			instance = new ProduitDAO();
+			 switch (nom){
+                     case "oracle":
+                    	 instance = new ProduitDAO();
+                         break;
+                     case "xml":
+                    	 instance = new AdapterProduitDAO_XML();
+                         break;
+
+             }
 		return instance;
 	}	
 }

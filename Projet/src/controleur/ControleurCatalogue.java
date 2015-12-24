@@ -15,7 +15,7 @@ public class ControleurCatalogue {
 	public static I_Catalogue catalogue;
 	
 	public static void setProduits(){
-		pdao = FactoryProduitDAO.createProduitDAO();
+		pdao = FactoryProduitDAO.createProduitDAO("xml");
 		List<I_Produit> prod = pdao.getProduits();
 		catalogue.addProduits(prod);
 	}

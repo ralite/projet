@@ -11,14 +11,14 @@ public class ControleurGestionProduit {
 	private I_ProduitDAO pdao;
 	
 	public ControleurGestionProduit() {
-		pdao = FactoryProduitDAO.createProduitDAO();
+		pdao = FactoryProduitDAO.createProduitDAO("xml");
 	}
 	
 	public boolean addProduit(String nom, double prixHT,int quantite){
-		boolean res;
-		res=pdao.creerProduit(nom, prixHT, quantite);
-		res=ControleurCatalogue.catalogue.addProduit(nom, prixHT, quantite);
-		return res;
+		boolean resultat;
+		resultat=pdao.creerProduit(nom, prixHT, quantite);
+		resultat=ControleurCatalogue.catalogue.addProduit(nom, prixHT, quantite);
+		return resultat;
 	}
 	
 	public String[] getNomsProduits(){
@@ -26,8 +26,9 @@ public class ControleurGestionProduit {
 	}
 
 	public boolean remove(String nom) {
-		pdao.supprimerProduit(nom);
-		//return ControleurCatalogue.catalogue.removeProduit(nom);	
-		return true;
+		boolean resultat;
+		resultat=pdao.supprimerProduit(nom);
+		resultat=ControleurCatalogue.catalogue.removeProduit(nom);	
+		return resultat;
 	}
 }

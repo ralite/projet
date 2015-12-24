@@ -9,17 +9,21 @@ public class ControleurTransaction {
 	private I_ProduitDAO pdao;
 	
 	public ControleurTransaction() {
-		pdao = FactoryProduitDAO.createProduitDAO();
+		pdao = FactoryProduitDAO.createProduitDAO("xml");
 	}
 
 	public boolean acheterProduit(String nom, int qte) {
-		pdao.acheterProduit(nom,qte);
-		return ControleurCatalogue.catalogue.acheterStock(nom, qte);
+		boolean resultat;
+		resultat=pdao.acheterProduit(nom,qte);
+		resultat=ControleurCatalogue.catalogue.acheterStock(nom, qte);
+		return resultat;
 	}
 
 	public boolean vendreProduit(String nom, int qte) {
-		pdao.vendreProduit(nom,qte);
-		return ControleurCatalogue.catalogue.vendreStock(nom, qte);
+		boolean resultat ;
+		resultat= pdao.vendreProduit(nom,qte);
+		resultat=ControleurCatalogue.catalogue.vendreStock(nom, qte);
+		return resultat;
 	}
 
 	
