@@ -4,7 +4,7 @@ public class FactoryProduitDAO {
 	
 	private static I_ProduitDAO instance;
 
-	public static I_ProduitDAO createProduitDAO(String nom) {
+	public static I_ProduitDAO getInstanceProduitDAO(String nom) {
 		if(instance==null)
 			 switch (nom){
                      case "oracle":

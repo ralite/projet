@@ -1,6 +1,7 @@
 package controleur;
 
 import javax.jws.Oneway;
+import javax.swing.JOptionPane;
 
 import DAL.FactoryProduitDAO;
 import DAL.I_ProduitDAO;
@@ -11,24 +12,40 @@ public class ControleurGestionProduit {
 	private I_ProduitDAO pdao;
 	
 	public ControleurGestionProduit() {
-		pdao = FactoryProduitDAO.createProduitDAO("xml");
+		pdao = FactoryProduitDAO.getInstanceProduitDAO("xml");
 	}
 	
-	public boolean addProduit(String nom, double prixHT,int quantite){
+	public void addProduit(String nom, String prix,String qte){
 		boolean resultat;
-		resultat=pdao.creerProduit(nom, prixHT, quantite);
-		resultat=ControleurCatalogue.catalogue.addProduit(nom, prixHT, quantite);
-		return resultat;
+		try{
+			double prixHT =  Double.valueOf(prix);
+			int quantite = Integer.parseInt(qte);
+			resultat=pdao.creerProduit(nom, prixHT, quantite);
+			resultat=ControleurCatalogue.catalogue.addProduit(nom, prixHT, quantite);
+		}catch(Exception e){
+			resultat=false;
+		}
+		if(!resultat){
+			JOptionPane.showMessageDialog(null,
+				    "Produit non enregistré !\n Verifiez le prix est la quantité.",
+				    "Erreur",
+				    JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 	public String[] getNomsProduits(){
 		return pdao.getNomProduits();
 	}
 
-	public boolean remove(String nom) {
+	public void remove(String nom) {
 		boolean resultat;
 		resultat=pdao.supprimerProduit(nom);
 		resultat=ControleurCatalogue.catalogue.removeProduit(nom);	
-		return resultat;
+		if(!resultat){
+			JOptionPane.showMessageDialog(null,
+				    "Produit non supprimé !\n",
+				    "Erreur",
+				    JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }

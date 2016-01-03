@@ -11,7 +11,6 @@ public class FenetreAchat extends JFrame implements ActionListener {
 	private JButton btAchat;
 	private JTextField txtQuantite;
 	private JComboBox<String> combo;
-	private JLabel labErreur = new JLabel();
 	
 	public FenetreAchat(String[] lesProduits) {
 
@@ -30,7 +29,6 @@ public class FenetreAchat extends JFrame implements ActionListener {
 		contentPane.add(new JLabel("Quantit� achet�e"));
 		contentPane.add(txtQuantite);
 		contentPane.add(btAchat);
-		contentPane.add(labErreur);
 		
 		btAchat.addActionListener(this);
 
@@ -38,21 +36,8 @@ public class FenetreAchat extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		int qte;
-		try {
-			qte = Integer.parseInt(txtQuantite.getText());
-			if(!ct.acheterProduit(combo.getSelectedItem().toString(),qte)){
-				labErreur.setText("Achat non enregistré");
-			}
-			else{
-				this.dispose();
-			}
-		}
-		catch(Exception e2){
-			labErreur.setText("Erreur sur la quantité");
-		}
-		
-		
+		ct.acheterProduit(combo.getSelectedItem().toString(),txtQuantite.getText());					
+		this.dispose();
 	}
 
 }

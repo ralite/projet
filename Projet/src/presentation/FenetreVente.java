@@ -37,21 +37,9 @@ public class FenetreVente extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		int qte;
-		try {
-			qte = Integer.parseInt(txtQuantite.getText());
-			if(!ct.vendreProduit(combo.getSelectedItem().toString(),qte)){
-				labErreur.setText("Vente non réalisée");
-			}
-			else{
-				this.dispose();
-			}
-		}
-		catch(Exception e2){
-			labErreur.setText("Erreur sur la quantité");
-		}
-		
-		
+		ct.vendreProduit(combo.getSelectedItem().toString(),txtQuantite.getText());
+		this.dispose();
+				
 	}
 
 }
