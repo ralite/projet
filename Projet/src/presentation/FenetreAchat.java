@@ -7,13 +7,13 @@ import javax.swing.*;
 import controleur.ControleurTransaction;
 
 public class FenetreAchat extends JFrame implements ActionListener {
-	private ControleurTransaction ct = new ControleurTransaction();
+	private ControleurTransaction ct;
 	private JButton btAchat;
 	private JTextField txtQuantite;
 	private JComboBox<String> combo;
 	
 	public FenetreAchat(String[] lesProduits) {
-
+		ct = new ControleurTransaction();
 		setTitle("Achat");
 		setBounds(500, 500, 200, 125);
 		Container contentPane = getContentPane();

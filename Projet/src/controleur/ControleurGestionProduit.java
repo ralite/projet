@@ -33,9 +33,6 @@ public class ControleurGestionProduit {
 		}
 	}
 	
-	public String[] getNomsProduits(){
-		return pdao.getNomProduits();
-	}
 
 	public void remove(String nom) {
 		boolean resultat;
