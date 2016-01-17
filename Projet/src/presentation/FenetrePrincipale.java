@@ -4,7 +4,6 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import metier.Catalogue;
 import controleur.ControleurCatalogue;
 import controleur.ControleurGestionProduit;
 
@@ -117,7 +116,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	
 	
 	public static void main(String[] args) {
-		ControleurCatalogue.catalogue=new Catalogue();
+		ControleurCatalogue.initialiserCatalogue();
 		new FenetrePrincipale();
 	}
 
