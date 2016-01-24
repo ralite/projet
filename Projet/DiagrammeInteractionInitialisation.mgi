@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <CommunicationClass name="controleur.ControleurCatalogue" x="614" y="99">
+        <Association destinationClassName="DAL.I_ProduitDAO"
+            endpointName="pdao" kind="Simple"/>
+        <Association destinationClassName="metier.I_Catalogue"
+            endpointName="catalogue" kind="Simple"/>
+        <Communication destinationClassName="DAL.FactoryProduitDAO"/>
+        <Communication destinationClassName="metier.I_Catalogue"/>
+        <Communication destinationClassName="DAL.I_ProduitDAO"/>
+    </CommunicationClass>
+    <CommunicationClass name="DAL.ProduitDAO_XML" x="427" y="382"/>
+    <CommunicationClass name="metier.Catalogue" x="972" y="176">
+        <Extension destinationClassName="metier.I_Catalogue"/>
+        <Association destinationClassName="metier.I_Produit"
+            endpointName="lesProduits" kind="Simple"/>
+        <Communication destinationClassName="metier.I_Produit"/>
+    </CommunicationClass>
+    <CommunicationClass name="DAL.FactoryProduitDAO" x="434" y="287">
+        <Association destinationClassName="DAL.I_ProduitDAO"
+            endpointName="instance" kind="Simple"/>
+    </CommunicationClass>
+    <CommunicationClass name="metier.Produit" x="1157" y="403">
+        <Extension destinationClassName="metier.I_Produit"/>
+    </CommunicationClass>
+    <CommunicationClass name="metier.I_Produit" x="1149" y="287"/>
+    <CommunicationClass name="DAL.ProduitDAO" x="660" y="398">
+        <Extension destinationClassName="DAL.I_ProduitDAO"/>
+    </CommunicationClass>
+    <CommunicationClass name="metier.I_Catalogue" x="954" y="99"/>
+    <CommunicationClass name="presentation.FenetrePrincipale" x="106" y="141">
+        <Communication destinationClassName="controleur.ControleurCatalogue"/>
+    </CommunicationClass>
+    <CommunicationClass name="DAL.I_ProduitDAO" x="771" y="246"/>
+</ClassDiagram>
