@@ -9,9 +9,11 @@ import java.util.List;
 public class Catalogue implements I_Catalogue{
 
 	private List<I_Produit> lesProduits ;
+	private String nomCatalogue;
 
-	public Catalogue() {
+	public Catalogue(String nomCatalogue) {
 		lesProduits = new ArrayList<I_Produit>();
+		this.nomCatalogue=nomCatalogue;
 	}
 	
 	private boolean estPresent(String nom){
@@ -136,6 +138,7 @@ public class Catalogue implements I_Catalogue{
 	@Override
 	public String toString() {
 		String s = "";
+		s=nomCatalogue+"\n";
 		DecimalFormat df = new DecimalFormat("#0.00");
 		for (I_Produit r : lesProduits) {
 			s+=r.getNom()+" - prix HT : "+df.format(r.getPrixUnitaireHT())+" € - prix TTC : "+df.format(r.getPrixUnitaireTTC())+" € - quantité en stock : "+r.getQuantite() + "\n";
@@ -144,5 +147,5 @@ public class Catalogue implements I_Catalogue{
 		s=s.replace(".", ",");
 		return s;
 	}
-	
+
 }

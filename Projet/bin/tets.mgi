@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <CommunicationClass name="controleur.ControleurCatalogue" x="585" y="357">
+        <Association destinationClassName="DAL.I_ProduitDAO"
+            endpointName="pdao" kind="Simple"/>
+        <Communication destinationClassName="DAL.FactoryProduitDAO"/>
+        <Communication destinationClassName="DAL.I_ProduitDAO"/>
+    </CommunicationClass>
+    <CommunicationClass name="DAL.ProduitDAO_XML" x="447" y="655"/>
+    <CommunicationClass name="DAL.FactoryProduitDAO" x="690" y="60">
+        <Association destinationClassName="DAL.I_ProduitDAO"
+            endpointName="instance" kind="Simple"/>
+    </CommunicationClass>
+    <CommunicationClass name="controleur.ControleurGestionProduit"
+        x="464" y="165">
+        <Association destinationClassName="DAL.I_ProduitDAO"
+            endpointName="pdao" kind="Simple"/>
+        <Communication destinationClassName="DAL.FactoryProduitDAO"/>
+        <Communication destinationClassName="DAL.I_ProduitDAO"/>
+    </CommunicationClass>
+    <CommunicationClass name="controleur.ControleurTransaction" x="973" y="570">
+        <Association destinationClassName="DAL.I_ProduitDAO"
+            endpointName="pdao" kind="Simple"/>
+        <Communication destinationClassName="DAL.FactoryProduitDAO"/>
+        <Communication destinationClassName="DAL.I_ProduitDAO"/>
+    </CommunicationClass>
+    <CommunicationClass name="DAL.AdapterProduitDAO_XML" x="1213" y="288">
+        <Extension destinationClassName="DAL.I_ProduitDAO"/>
+        <Association destinationClassName="DAL.ProduitDAO_XML"
+            endpointName="daoxml" kind="Simple"/>
+        <Communication destinationClassName="DAL.ProduitDAO_XML">
+            <Point x="1146" y="267"/>
+        </Communication>
+    </CommunicationClass>
+    <CommunicationClass name="DAL.ProduitDAO" x="1124" y="422">
+        <Extension destinationClassName="DAL.I_ProduitDAO"/>
+    </CommunicationClass>
+    <CommunicationClass name="presentation.FenetrePrincipale" x="294" y="201">
+        <Association
+            destinationClassName="controleur.ControleurGestionProduit"
+            endpointName="gp" kind="Simple"/>
+        <Communication destinationClassName="controleur.ControleurCatalogue"/>
+        <Communication destinationClassName="controleur.ControleurGestionProduit"/>
+    </CommunicationClass>
+    <CommunicationClass name="DAL.I_ProduitDAO" x="991" y="182"/>
+</ClassDiagram>

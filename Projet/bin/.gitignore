@@ -1,7 +1,4 @@
-/DAL/
+/presentation/
 /controleur/
 /metier/
-/presentation/
-/compteRendu1.ucls
-/DiagrammePackage1.mgp
-/tets.mgi
+/DAL/

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PackageAnalysis>
+    <Package name="controleur" x="660" y="278">
+        <DependencyLink destination="DAL"/>
+        <DependencyLink destination="metier"/>
+    </Package>
+    <Package name="DAL" x="299" y="142">
+        <DependencyLink destination="metier"/>
+    </Package>
+    <Package name="metier" x="278" y="401"/>
+    <Package name="presentation" x="882" y="354">
+        <DependencyLink destination="controleur"/>
+    </Package>
+</PackageAnalysis>
