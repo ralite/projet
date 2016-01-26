@@ -8,13 +8,16 @@ import controleur.ControleurTransaction;
 
 public class FenetreVente extends JFrame implements ActionListener {
 
-	private ControleurTransaction ct = new ControleurTransaction();
+	private ControleurTransaction ct;
 	private JButton btVente;
 	private JTextField txtQuantite;
 	private JComboBox<String> combo;
 	private JLabel labErreur = new JLabel();
 
-	public FenetreVente(String[] lesProduits) {
+	public FenetreVente(String[] lesProduits, ControleurTransaction ctrlTransaction) {
+		
+		ct=ctrlTransaction;
+		
 		setTitle("Vente");
 		setBounds(500, 500, 200, 125);
 		Container contentPane = getContentPane();

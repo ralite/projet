@@ -85,7 +85,7 @@ public class FenetreAccueil extends JFrame implements ActionListener {
 		
 		tab=ctrlCatalogue.getNomsCatalogues();
 		modifierListesCatalogues(tab);
-		String[] tab2 = {"Formacia : 6 produits" , "Le Redoutable : 4 produits" , "Noitaicossa : 0 produits" };
+		String[] tab2 = ctrlCatalogue.getDetailsCatalogues();
 		modifierDetailCatalogues(tab2);
 		modifierNbCatalogues(3);
 		setVisible(true);
@@ -104,6 +104,7 @@ public class FenetreAccueil extends JFrame implements ActionListener {
 				ctrlCatalogue.ajouterCatalogue(texteAjout);
 				tab=ctrlCatalogue.getNomsCatalogues();
 				modifierListesCatalogues(tab);
+				modifierDetailCatalogues(ctrlCatalogue.getDetailsCatalogues());
 			}
 		}
 		if (e.getSource() == btSupprimer)
@@ -114,6 +115,7 @@ public class FenetreAccueil extends JFrame implements ActionListener {
 				ctrlCatalogue.supprimerCatalogue(texteSupprime);
 				tab=ctrlCatalogue.getNomsCatalogues();
 				modifierListesCatalogues(tab);
+				modifierDetailCatalogues(ctrlCatalogue.getDetailsCatalogues());
 		}
 		if (e.getSource() == btSelectionner)
 		{
@@ -122,6 +124,7 @@ public class FenetreAccueil extends JFrame implements ActionListener {
 			{
 				System.out.println("selectionne catalogue "+texteSelection);
 				this.dispose();
+				ctrlCatalogue.setCatalogue(texteSelection);
 			}
 		}	
 	}

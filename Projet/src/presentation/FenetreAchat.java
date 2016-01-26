@@ -12,8 +12,8 @@ public class FenetreAchat extends JFrame implements ActionListener {
 	private JTextField txtQuantite;
 	private JComboBox<String> combo;
 	
-	public FenetreAchat(String[] lesProduits) {
-		ct = new ControleurTransaction();
+	public FenetreAchat(String[] lesProduits, ControleurTransaction ctrlTransaction) {
+		ct = ctrlTransaction;
 		setTitle("Achat");
 		setBounds(500, 500, 200, 125);
 		Container contentPane = getContentPane();

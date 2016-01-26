@@ -10,7 +10,14 @@ public class Catalogue implements I_Catalogue{
 
 	private List<I_Produit> lesProduits ;
 	private String nomCatalogue;
+	private int nombreProduits;
 
+	public Catalogue(String nomCatalogue, int nombreProduits) {
+		lesProduits = new ArrayList<I_Produit>();
+		this.nomCatalogue=nomCatalogue;
+		this.nombreProduits=nombreProduits;
+	}
+	
 	public Catalogue(String nomCatalogue) {
 		lesProduits = new ArrayList<I_Produit>();
 		this.nomCatalogue=nomCatalogue;
@@ -33,6 +40,10 @@ public class Catalogue implements I_Catalogue{
 			lesProduits.add(p);
 			return true;
 		}
+	}
+	
+	public String getNom(){
+		return nomCatalogue;
 	}
 	
 	public boolean addProduit(String nom, double prixHT,int quantite){
@@ -146,6 +157,11 @@ public class Catalogue implements I_Catalogue{
 		s+="\nMontant total TTC du stock : "+df.format(getMontantTotalTTC())+" €";
 		s=s.replace(".", ",");
 		return s;
+	}
+
+	@Override
+	public int getNombreProduits() {
+		return nombreProduits;
 	}
 
 }

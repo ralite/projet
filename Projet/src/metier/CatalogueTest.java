@@ -14,7 +14,7 @@ public class CatalogueTest {
 	
 	@Before
 	public void setUp() {
-		cat = new Catalogue("Catalogue1");
+		cat = new Catalogue("Catalogue1",0);
 //		Si votre Catalogue est un Singleton, il faut changer la ligne pr�c�dente puis vider le Catalogue avec la m�thode clear() comme indiqu� � la ligne suivante
 //		cat.clear();
 	}

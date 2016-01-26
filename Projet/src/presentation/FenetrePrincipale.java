@@ -20,9 +20,9 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	private JButton btAchat;
 	private JButton btVente;
 	private JButton btQuitter;
-
+	private ControleurCatalogue ctrlCatalogue;
 	
-	public FenetrePrincipale() {
+	public FenetrePrincipale(ControleurCatalogue ctrlCatalogue) {
 		
 		setTitle("exercice Produits");
 		setBounds(500, 500, 320, 250);
@@ -65,7 +65,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 		btVente.addActionListener(this);
 		btQuitter.addActionListener(this);
 		
-
+		this.ctrlCatalogue=ctrlCatalogue;
 		
 		
 		addWindowListener(this);
@@ -76,25 +76,27 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 
 /* tabProduits permet de tester le fonctionnement des fen�tres avec un tableau de noms de produits "en dur"
    Quand l'application fonctionnera, il faudra bien s�r r�cup�rer les noms des produits dans le Catalogue */
-		String[] tabProduits = ControleurCatalogue.getNomsProduits();
+		String[] tabProduits = ctrlCatalogue.getNomsProduits();
 /* M�me chose pour tabCategories (partie 4) */ 		
 //		String[] tabCategories = new String[] {"Bio", "Luxe" };
 		
 		if (e.getSource() == btAfficher)
-			new FenetreAffichage(ControleurCatalogue.getProduitsCatalogue());
+			new FenetreAffichage(ctrlCatalogue.getProduitsCatalogue());
 		if (e.getSource() == btNouveauProduit)
 //			new FenetreNouveauProduit(tabCategories);
-			new FenetreNouveauProduit();
+			
+			ctrlCatalogue.nouveauProduit();
 		if (e.getSource() == btSupprimerProduit)
-			new FenetreSuppressionProduit(tabProduits);
+			
+			ctrlCatalogue.supprimerProduit(tabProduits);
 //		if (e.getSource() == btNouvelleCategorie)
 //			new FenetreNouvelleCategorie();
 //		if (e.getSource() == btSupprimerCategorie)
 //			new FenetreSuppressionCategorie(tabCategories);
 		if (e.getSource() == btAchat)
-			new FenetreAchat(tabProduits);
+			ctrlCatalogue.acheterProduit(tabProduits);
 		if (e.getSource() == btVente)
-			new FenetreVente(tabProduits);
+			ctrlCatalogue.vendreProduit(tabProduits);
 		if (e.getSource() == btQuitter){
 			System.out.println("Au revoir");
 			System.exit(0);
@@ -116,8 +118,8 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	
 	
 	public static void main(String[] args) {
-		ControleurCatalogue.initialiserCatalogue();
-		new FenetrePrincipale();
+		//ControleurCatalogue.initialiserCatalogue();
+		//new FenetrePrincipale();
 	}
 
 }

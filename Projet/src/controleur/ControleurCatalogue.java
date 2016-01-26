@@ -5,10 +5,15 @@ package controleur;
 import java.util.ArrayList;
 import java.util.List;
 
+import presentation.FenetreAchat;
+import presentation.FenetreNouveauProduit;
+import presentation.FenetrePrincipale;
+import presentation.FenetreSuppressionProduit;
+import presentation.FenetreVente;
+
 import com.sun.org.apache.xml.internal.resolver.Catalog;
 
 import DAL.FactoryDAO;
-import DAL.FactoryProduitDAO;
 import DAL.I_CatalogueDAO;
 import DAL.I_ProduitDAO;
 import DAL.I_StockageFactory;
@@ -19,11 +24,12 @@ import metier.I_Produit;
 
 public class ControleurCatalogue {
 	private static I_CatalogueDAO catalogueDAO;
-	private static I_ProduitDAO pdao;
-	public static I_Catalogue catalogue;
+	private I_ProduitDAO pdao;
+	private I_Catalogue catalogue;
 	private List<I_Catalogue> lesCatalogues;
 	private I_StockageFactory fabrique;
-		
+	private ControleurGestionProduit ctrlGestionProduit;
+	private ControleurTransaction ctrlTransaction;
 
 	public ControleurCatalogue() {
 		fabrique=new FactoryDAO();
@@ -33,42 +39,39 @@ public class ControleurCatalogue {
 	}
 
 
-
-	public static void initialiserCatalogue() {
-		catalogue=new Catalogue("Catalogue1");
-		pdao = FactoryProduitDAO.getInstanceProduitDAO("xml");
-		List<I_Produit> produit = pdao.getProduits();
-		catalogue.addProduits(produit);
-		
-	}
-
-
-
-	public static String getProduitsCatalogue() {
+	public String getProduitsCatalogue() {
 		return catalogue.toString();
 	}
 
 
 
-	public static String[] getNomsProduits(){
+	public String[] getNomsProduits(){
 		return pdao.getNomProduits();
 	}
 
 
 
 	public void ajouterCatalogue(String text) {
-		lesCatalogues.add(new Catalogue(text));
+		lesCatalogues.add(new Catalogue(text,0));
 		catalogueDAO.creerCatalogue(text);
 	}
 
 
 
 	public String[] getNomsCatalogues() {
-		String[] nomsCatalogues=catalogueDAO.getNomsCatalogues();
-		for (String nom : nomsCatalogues) {
-			lesCatalogues.add(new Catalogue(nom));
+		List<I_Catalogue> catalogues=catalogueDAO.getCatalogues();
+		if(catalogues!=null){
+			String[] nomsCatalogues= new String[(catalogues.size())];
+			
+			int i =0;
+			for (I_Catalogue catalogue : catalogues) {
+				nomsCatalogues[i]=catalogue.getNom();
+				i++;
+			}
+			lesCatalogues=catalogues;
+			return nomsCatalogues;
 		}
-		return nomsCatalogues;
+		else return new String[0];
 	}
 
 
@@ -77,6 +80,70 @@ public class ControleurCatalogue {
 		catalogueDAO.supprimerCatalogue(texteSupprime);
 		lesCatalogues.remove(new Catalogue(texteSupprime));
 		
+	}
+
+
+
+	public String[] getDetailsCatalogues() {
+		int i=0;
+		String[] detailsCatalogues=new String[lesCatalogues.size()];
+		for (I_Catalogue catalogue : lesCatalogues) {
+			detailsCatalogues[i]=catalogue.getNom()+" : "+ String.valueOf(catalogue.getNombreProduits())+" produits";
+			i++;
+		}
+		return detailsCatalogues;
+	}
+	
+	public I_Catalogue rechercherCatalogue(String nomCatalogue){
+		for (I_Catalogue catalogue : lesCatalogues) {
+			if(catalogue.getNom().equalsIgnoreCase(nomCatalogue)){
+				return catalogue;
+			}
+		}
+		return null;
+	}
+
+
+
+	public void setCatalogue(String texteSelection) {
+		I_Catalogue catalogue=rechercherCatalogue(texteSelection);
+		if(catalogue!=null){
+			this.catalogue=catalogue;
+			ctrlGestionProduit=new ControleurGestionProduit(pdao,catalogue);
+			ctrlTransaction=new ControleurTransaction(pdao,catalogue);
+			catalogue.addProduits(pdao.getProduits(catalogue.getNom()));
+			
+			new FenetrePrincipale(this);
+		}
+		
+		
+	}
+
+
+
+	public void nouveauProduit() {
+		new FenetreNouveauProduit(ctrlGestionProduit);
+		
+	}
+
+
+
+	public void supprimerProduit(String[] tabProduits) {
+		new FenetreSuppressionProduit(tabProduits,ctrlGestionProduit);
+		
+	}
+
+
+
+	public void acheterProduit(String[] tabProduits) {
+		new FenetreAchat(tabProduits,ctrlTransaction);
+		
+	}
+
+
+
+	public void vendreProduit(String[] tabProduits) {
+		new FenetreVente(tabProduits,ctrlTransaction);
 	}
 	
 }

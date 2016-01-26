@@ -9,13 +9,13 @@ import metier.Produit;
 
 public interface I_ProduitDAO {
 
-	public boolean creerProduit(String nom, double prixHT, int qte);
+	public boolean creerProduit(String nom, double prixHT, int qte, String nomCatalogue);
 	
-	public boolean supprimerProduit(String nom);
+	public boolean supprimerProduit(String nom, String nomCatalogue);
 
 	public String[] getNomProduits();
 
-	public List<I_Produit> getProduits();
+	public List<I_Produit> getProduits(String nomCatalogue);
 
 	public boolean acheterProduit(String nom, int qte);
 

@@ -12,7 +12,9 @@ public interface I_Catalogue {
 	public abstract String[] getNomProduits();
 	public abstract double getMontantTotalTTC();
 	public abstract String toString();
+	public abstract String getNom();
 
 	public abstract void clear();
+	public abstract int getNombreProduits();
 
 }

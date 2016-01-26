@@ -3,26 +3,31 @@ package controleur;
 import javax.jws.Oneway;
 import javax.swing.JOptionPane;
 
-import DAL.FactoryProduitDAO;
+import metier.I_Catalogue;
 import DAL.I_ProduitDAO;
 import DAL.ProduitDAO;
 
 public class ControleurGestionProduit {
 
 	private I_ProduitDAO pdao;
+	private I_Catalogue catalogue;
 	
-	public ControleurGestionProduit() {
-		pdao = FactoryProduitDAO.getInstanceProduitDAO("xml");
+	public ControleurGestionProduit(I_ProduitDAO pdao,I_Catalogue catalogue) {
+		this.pdao=pdao;
+		this.catalogue=catalogue;
 	}
 	
 	public void addProduit(String nom, String prix,String qte){
-		boolean resultat;
+		boolean resultat=false;
 		try{
-			double prixHT =  Double.valueOf(prix);
+			System.out.println(catalogue);
+			double prixHT =  Double.parseDouble(prix);
 			int quantite = Integer.parseInt(qte);
-			resultat=pdao.creerProduit(nom, prixHT, quantite);
-			resultat=ControleurCatalogue.catalogue.addProduit(nom, prixHT, quantite);
+			resultat=pdao.creerProduit(nom, prixHT, quantite, catalogue.getNom());
+			resultat=catalogue.addProduit(nom, prixHT, quantite);
 		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println("icivraiment");
 			resultat=false;
 		}
 		if(!resultat){
@@ -36,8 +41,8 @@ public class ControleurGestionProduit {
 
 	public void remove(String nom) {
 		boolean resultat;
-		resultat=pdao.supprimerProduit(nom);
-		resultat=ControleurCatalogue.catalogue.removeProduit(nom);	
+		resultat=pdao.supprimerProduit(nom,catalogue.getNom());
+		resultat=catalogue.removeProduit(nom);	
 		if(!resultat){
 			JOptionPane.showMessageDialog(null,
 				    "Produit non supprimé !\n",

@@ -5,13 +5,16 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import controleur.ControleurGestionProduit;
+import controleur.ControleurTransaction;
 
 public class FenetreSuppressionProduit extends JFrame implements ActionListener {
-	private ControleurGestionProduit gp = new ControleurGestionProduit();
+	private ControleurGestionProduit gp;
 	private JButton btSupprimer;
 	private JComboBox<String> combo;
 	
-	public FenetreSuppressionProduit(String lesProduits[]) {
+	public FenetreSuppressionProduit(String lesProduits[], ControleurGestionProduit ctrlGestionProduit) {
+		
+		gp=ctrlGestionProduit;
 		
 		setTitle("Suppression produit");
 		setBounds(500, 500, 200, 105);

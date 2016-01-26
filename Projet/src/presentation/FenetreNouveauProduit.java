@@ -7,7 +7,7 @@ import javax.swing.*;
 import controleur.ControleurGestionProduit;
 
 public class FenetreNouveauProduit extends JFrame implements ActionListener {
-	private ControleurGestionProduit gp = new ControleurGestionProduit();
+	private ControleurGestionProduit gp ;
 	private JTextField txtPrixHT;
 	private JTextField txtNom;
 	private JTextField txtQte;
@@ -15,8 +15,10 @@ public class FenetreNouveauProduit extends JFrame implements ActionListener {
 	private JButton btValider;
 
 //	public FenetreNouveauProduit(String[] lesCategories) {
-	public FenetreNouveauProduit() {	
+	public FenetreNouveauProduit(ControleurGestionProduit ctrlGestionProduit) {	
 
+		gp=ctrlGestionProduit;
+		
 		setTitle("Creation Produit");
 		setBounds(500, 500, 200, 250);
 		Container contentPane = getContentPane();

@@ -14,36 +14,27 @@ import metier.Produit;
 
 public class ProduitDAO implements I_ProduitDAO {
 
-	//String url="jdbc:oracle:thin:@gloin:1521:iut";
-	String url="jdbc:oracle:thin:@162.38.222.149:1521:iut";
-	String driver = "oracle.jdbc.driver.OracleDriver";
-	String login = "ralitej";
-	String mdp="2205000408Z";
-	Connection cn= null;
+	Connexion cn;
 
 	PreparedStatement creerProd = null;
 	PreparedStatement suppProd = null;
 	PreparedStatement getProd = null;
 	PreparedStatement gererStock = null;
+	PreparedStatement incrementerNbProduits=null;
+	PreparedStatement decrementerNbProduits=null;
 	ResultSet rs=null;
 
 	
-	public ProduitDAO() {
+	public ProduitDAO(Connexion connexion) {
+		cn=connexion;
 		try {
-			Class.forName(driver);
-			cn=DriverManager.getConnection(url,login,mdp);
-			} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			}
-		try {
-			creerProd=cn.prepareStatement("insert into Produit values (seqNumProduit.nextval,?,?,?)",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			creerProd=cn.prepareStatement("insert into Produit values (seqNumProduit.nextval,?,?,?,?)",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			suppProd=cn.prepareStatement("delete from Produit where nomProduit=?",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
-			getProd=cn.prepareStatement("select * from Produit",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			getProd=cn.prepareStatement("select * from Produit where nomCatalogue=?",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			gererStock=cn.prepareStatement("update Produit set quantite=quantite+? where nomProduit=?",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			incrementerNbProduits=cn.prepareStatement("update Catalogue set nombreProduit=nombreProduit+1",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			decrementerNbProduits=cn.prepareStatement("update Catalogue set nombreProduit=nombreProduit-1",ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,21 +45,19 @@ public class ProduitDAO implements I_ProduitDAO {
 	
 	
 	public void deconnexion() {
-		// TODO Auto-generated method stub
-		try {
-		cn.close();
-		} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		}
+	
+		cn.deconnexion();
+
 	}
 	
-	public boolean creerProduit(String nom, double prixHT, int qte){
+	public boolean creerProduit(String nom, double prixHT, int qte, String nomCatalogue){
 		try {
 			creerProd.setString(1,nom);
 			creerProd.setDouble(2,prixHT);
 			creerProd.setInt(3,qte);
+			creerProd.setString(4, nomCatalogue);
 			creerProd.executeQuery();
+			incrementerNbProduits.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -76,10 +65,12 @@ public class ProduitDAO implements I_ProduitDAO {
 		return true;
 	}
 	
-	public boolean supprimerProduit(String nom){
+	public boolean supprimerProduit(String nom, String nomCatalogue){
 		try {
 			suppProd.setString(1,nom);
+			suppProd.setString(2,nomCatalogue);
 			suppProd.executeQuery();
+			decrementerNbProduits.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -108,11 +99,12 @@ public class ProduitDAO implements I_ProduitDAO {
 		}
 	}
 
-	public List<I_Produit> getProduits() {
+	public List<I_Produit> getProduits(String nomCatalogue) {
 		try {
 			double prixUnitaireHT;
 			int quantiteStock;
 			List<I_Produit> prod = new ArrayList<I_Produit>();
+			getProd.setString(1, nomCatalogue);
 			rs=getProd.executeQuery();
 			rs.beforeFirst();
 			while(rs.next()){
@@ -160,5 +152,6 @@ public class ProduitDAO implements I_ProduitDAO {
 		}
 		
 	}
+
 	
 }

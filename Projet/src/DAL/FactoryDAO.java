@@ -14,7 +14,7 @@ public class FactoryDAO implements I_StockageFactory{
 	@Override
 	public I_ProduitDAO creerProduitDAO() {
 		//Connexion 
-		return new ProduitDAO();
+		return new ProduitDAO(Connexion.getInstance());
 	}
 
 }

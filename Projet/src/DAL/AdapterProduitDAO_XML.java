@@ -14,13 +14,13 @@ public class AdapterProduitDAO_XML implements I_ProduitDAO{
 	}
 
 	@Override
-	public boolean creerProduit(String nom, double prixHT, int qte) {
+	public boolean creerProduit(String nom, double prixHT, int qte, String nomCatalogue) {
 		boolean resultat = daoxml.creer(new Produit(nom, prixHT, qte));
 		return resultat;
 	}
 
 	@Override
-	public boolean supprimerProduit(String nom) {
+	public boolean supprimerProduit(String nom, String nomCatalogue) {
 		boolean resultat;
 		I_Produit produit;
 		produit=daoxml.lire(nom);
@@ -41,7 +41,7 @@ public class AdapterProduitDAO_XML implements I_ProduitDAO{
 	}
 
 	@Override
-	public List<I_Produit> getProduits() {
+	public List<I_Produit> getProduits(String nomCatalogue) {
 		return daoxml.lireTous();
 	}
 
